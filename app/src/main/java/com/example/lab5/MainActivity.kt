@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Lab5Theme {
-                //GalleryApp()
-                TipApp()
+                GalleryApp()
+                //TipApp()
             }
         }
     }
@@ -35,72 +35,100 @@ class MainActivity : ComponentActivity() {
 fun GalleryApp() {
     data class Slide(val imageRes: Int, val title: String, val artist: String, val year: String)
     var currentSlide by remember { mutableStateOf(0) }
+
     val slides = listOf(
-        Slide(R.drawable.first, "Горный пейзаж", "Иван Петров", "2023"),
-        Slide(R.drawable.second, "Морской закат", "Анна Смирнова", "2022"),
-        Slide(R.drawable.third, "Лесная тропа", "Сергей Козлов", "2024"),
-        Slide(R.drawable.fourth, "Город ночью", "Мария Иванова", "2023")
+        Slide(R.drawable.first, "Энержека", "Энержека Парень", "2025"),
+        Slide(R.drawable.second, "Я устала...", "Вдова", "2025"),
+        Slide(R.drawable.third, "Жарко ведь", "Бывший зек", "2025"),
+        Slide(R.drawable.fourth, "Я точно не гость?", "Кривая", "2025")
     )
 
-    Column(
+    val backgroundImage = painterResource(id = R.drawable.background)
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Image(
-            painter = painterResource(id = slides[currentSlide].imageRes),
-            contentDescription = null,
+            painter = backgroundImage,
+            contentDescription = "Фон галереи",
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1.5f)
+                .fillMaxSize(),
+            alpha = 1.0f
         )
 
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = Color(0xFFF5F5F5),
-            shape = MaterialTheme.shapes.medium
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(20.dp)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1.5f),
+                contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = slides[currentSlide].title,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                Image(
+                    painter = painterResource(id = slides[currentSlide].imageRes),
+                    contentDescription = "Картинка слайда",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.9f)
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
+            }
+
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = Color(0xFFF5F5F5).copy(alpha = 0.9f),
+                shape = MaterialTheme.shapes.medium
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp)
+                ) {
                     Text(
-                        text = slides[currentSlide].artist,
-                        fontWeight = FontWeight.SemiBold
+                        text = slides[currentSlide].title,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
                     )
-                    Text(text = " (${slides[currentSlide].year})")
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row {
+                        Text(
+                            text = slides[currentSlide].artist,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Text(text = " (${slides[currentSlide].year})")
+                    }
                 }
             }
-        }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Button(
-                onClick = {
-                    currentSlide = if (currentSlide > 0) currentSlide - 1 else slides.size - 1
-                },
-                modifier = Modifier.weight(1f)
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.Transparent
             ) {
-                Text(text = "Назад")
-            }
-            Button(
-                onClick = {
-                    currentSlide = if (currentSlide < slides.size - 1) currentSlide + 1 else 0
-                },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(text = "Вперед")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            currentSlide = if (currentSlide > 0) currentSlide - 1 else slides.size - 1
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Назад")
+                    }
+                    Button(
+                        onClick = {
+                            currentSlide = if (currentSlide < slides.size - 1) currentSlide + 1 else 0
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Вперед")
+                    }
+                }
             }
         }
     }
