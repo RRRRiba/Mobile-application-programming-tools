@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Lab5"
-include(":app")
- 
+include(":tipCalc")
+include(":gallery")
